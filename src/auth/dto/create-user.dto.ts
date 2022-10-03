@@ -1,10 +1,9 @@
 import { IsEmail, IsEnum, IsNotEmpty, IsAlpha } from 'class-validator';
+import ROLE from 'src/auth/role/role.enum';
 import { BRANCH } from '../user.entity';
 
 class CreateUserDto {
-  @IsAlpha('en', {
-    message: 'Name should not contain numeric characteristsics',
-  })
+  @IsAlpha()
   name: string;
   @IsNotEmpty()
   department: string;
@@ -16,6 +15,8 @@ class CreateUserDto {
   pubKey: string;
   @IsEmail()
   email: string;
+  @IsEnum(ROLE)
+  role: ROLE;
 }
 
 export default CreateUserDto;

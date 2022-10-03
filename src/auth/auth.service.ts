@@ -1,8 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotAcceptableException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { UnauthorizedException } from '@nestjs/common';
 import CreateUserDto from './dto/create-user.dto';
 import User from './user.entity';
+import { type } from 'os';
 
 @Injectable()
 export class AuthService {
@@ -15,6 +17,24 @@ export class AuthService {
 
   async createUser(createUserDto: CreateUserDto) {
     const user = this.userRepository.create(createUserDto);
-    return await this.userRepository.save(user);
+    try {
+      return await this.userRepository.save(user);
+    } catch (error) {
+      if (error.code == '23505') {
+        throw new NotAcceptableException('User already exists');
+      }
+    }
+  }
+
+  async validateUser(pubKey: string) {
+    const user = await this.userRepository.findOne({
+      where: {
+        pubKey: pubKey,
+      },
+    });
+    if (!user) {
+      throw new UnauthorizedException('User not in club.');
+    }
+    return user;
   }
 }
