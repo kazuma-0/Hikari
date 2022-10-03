@@ -6,11 +6,15 @@ import {
   Body,
   Delete,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import { EventsService } from './events.service';
 import Event from './events.entity';
 import CreateEventDto from './dto/create-event.dto';
 import UpdateEventDto from './dto/update-event.dto';
+import { AuthGuard } from '@nestjs/passport';
+import { Roles } from 'src/auth/role/role.decorator';
+import ROLE from 'src/auth/role/role.enum';
 @Controller({
   path: 'event',
   version: '1',
@@ -22,32 +26,40 @@ export class EventsController {
   getEvents(): Promise<Event[]> {
     return this.eventService.getAllEvents();
   }
-
+  @Post('/new')
+  @UseGuards(AuthGuard('web3'))
+  @Roles(ROLE.EXECUTIVE, ROLE.TEACHER)
+  createEvent(@Body() createEventDto: CreateEventDto): Promise<Event> {
+    return this.eventService.createEvent(createEventDto);
+  }
   @Get('/:id')
   async getEventById(@Param('id') id: number): Promise<Event> {
     const result = await this.eventService.getEventById(id);
     return result;
   }
 
-  @Post('/new')
-  createEvent(@Body() createEventDto: CreateEventDto): Promise<Event> {
-    return this.eventService.createEvent(createEventDto);
-  }
-
   @Put('/update')
+  @UseGuards(AuthGuard('web3'))
+  @Roles(ROLE.EXECUTIVE, ROLE.TEACHER)
   updateEvent(@Body() updateEventDto: UpdateEventDto) {
     this.eventService.updatePost(updateEventDto);
   }
 
   @Delete(':id')
+  @UseGuards(AuthGuard('web3'))
+  @Roles(ROLE.EXECUTIVE, ROLE.TEACHER)
   async deleteEvent(@Param('id') id: number): Promise<void> {
     await this.eventService.deleteEvent(id);
   }
+  @UseGuards(AuthGuard('web3'))
+  // @Roles(ROLE.USER)
   @Put('/like/:id')
   async likeEvent(@Param('id') id: number): Promise<boolean> {
     return await this.eventService.incrementLike(id);
   }
   @Put('/disLike/:id')
+  @UseGuards(AuthGuard('web3'))
+  // @Roles(ROLE.USER)
   async dislikeEvent(@Param('id') id: number): Promise<boolean> {
     return await this.eventService.decrementLike(id);
   }

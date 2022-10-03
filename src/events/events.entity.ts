@@ -7,7 +7,7 @@ class Event {
   @Column()
   title: string;
   @Column({ default: Date.now() })
-  created_at: number;
+  created_at: string;
   @Column()
   short_description: string;
   @Column()
