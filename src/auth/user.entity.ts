@@ -1,5 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-
+import ROLE from 'src/auth/role/role.enum';
 @Entity()
 class User {
   @PrimaryGeneratedColumn('uuid')
@@ -17,7 +17,9 @@ class User {
   @Column({})
   email: string;
   @Column({ default: Date.now() })
-  created_at: number;
+  created_at: string;
+  @Column()
+  role: ROLE;
 }
 
 export default User;
