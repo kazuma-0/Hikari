@@ -10,7 +10,6 @@ async function bootstrap() {
   // const swaggerConfig = new DocumentBuilder()
   //   .setTitle('Events')
   //   .setVersion('v1')
-  //   .setBasePath('v1')
   //   .build();
   // const document = SwaggerModule.createDocument(app, swaggerConfig);
   // SwaggerModule.setup('swagger', app, document);
