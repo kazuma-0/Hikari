@@ -6,7 +6,7 @@ class User {
   id: string;
   @Column({})
   name: string; // name
-  @Column({ default: 'Computer science and engineering' })
+  @Column({ default: 'Computer Science and Engineering' })
   department: string; // department
   @Column({})
   branch: BRANCH; // branch
@@ -26,9 +26,9 @@ export default User;
 
 enum BRANCH {
   AIDS = 'Artificial Intelligence and Data science',
-  CSD = 'Computer science and design',
-  CSE = 'Computer science and engineering',
-  CSEC = 'Computer science and enginnering with cybersecurity',
+  CSD = 'Computer Science and Design',
+  CSE = 'Computer Science and Engineering',
+  CSEC = 'Computer Science and Enginnering with Cybersecurity',
 }
 
 export { BRANCH };
