@@ -7,12 +7,12 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   // TODO: Configure swagger later.
-  // const swaggerConfig = new DocumentBuilder()
-  //   .setTitle('Events')
-  //   .setVersion('v1')
-  //   .build();
-  // const document = SwaggerModule.createDocument(app, swaggerConfig);
-  // SwaggerModule.setup('swagger', app, document);
+  const swaggerConfig = new DocumentBuilder()
+    .setTitle('Events')
+    .setVersion('v1')
+    .build();
+  const document = SwaggerModule.createDocument(app, swaggerConfig);
+  SwaggerModule.setup('swagger', app, document);
   app.useGlobalPipes(new ValidationPipe());
   app.enableVersioning({
     type: VersioningType.URI,
