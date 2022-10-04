@@ -1,9 +1,15 @@
-import { IsEmail, IsEnum, IsNotEmpty, IsAlpha } from 'class-validator';
+import {
+  IsEmail,
+  IsEnum,
+  IsNotEmpty,
+  IsAlpha,
+  IsString,
+} from 'class-validator';
 import ROLE from 'src/auth/role/role.enum';
 import { BRANCH } from '../user.entity';
 
 class CreateUserDto {
-  @IsAlpha()
+  @IsString()
   name: string;
   @IsNotEmpty()
   department: string;
