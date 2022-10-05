@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Post, UseGuards, Req } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  UseGuards,
+  Req,
+  Param,
+} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
 import { AuthService } from './auth.service';
@@ -24,5 +32,12 @@ export class AuthController {
   @Post('/login')
   async logIn(@Body() loginDto: LoginDto) {
     return await this.authService.validateUser(loginDto.pubKey);
+  }
+
+  @Get('/user/:pubKey')
+  @Roles(ROLE.EXECUTIVE, ROLE.EXECUTIVE, ROLE.USER)
+  @UseGuards(AuthGuard('web3'))
+  async getUser(@Param('pubKey') pubKey: string) {
+    return this.authService.getUserByPubKey(pubKey);
   }
 }

@@ -1,4 +1,8 @@
-import { Injectable, NotAcceptableException } from '@nestjs/common';
+import {
+  Injectable,
+  NotAcceptableException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UnauthorizedException } from '@nestjs/common';
@@ -36,5 +40,18 @@ export class AuthService {
       throw new UnauthorizedException('User not in club.');
     }
     return user;
+  }
+
+  async getUserByPubKey(pubKey: string): Promise<User> {
+    const found = await this.userRepository.findOne({
+      where: {
+        pubKey: pubKey,
+      },
+    });
+    if (!found) {
+      throw new NotFoundException('User not found.');
+    }
+
+    return found;
   }
 }
