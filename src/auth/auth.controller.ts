@@ -14,9 +14,10 @@ import ROLE from './role/role.enum';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
   @Post('/new')
-  @UseGuards(AuthGuard('web3'))
-  @Roles(ROLE.EXECUTIVE)
+  // @UseGuards(AuthGuard('web3'))
+  // @Roles(ROLE.EXECUTIVE)
   async SignUp(@Body() createUserDto: CreateUserDto) {
+    console.log(createUserDto);
     return await this.authService.createUser(createUserDto);
   }
 
