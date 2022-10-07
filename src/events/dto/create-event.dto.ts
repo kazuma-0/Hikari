@@ -3,7 +3,7 @@ import { IsNotEmpty } from 'class-validator';
 class CreateEventDto {
   @IsNotEmpty()
   title: string;
-  short_description: string;
+  tags: string;
   description: string;
   markdown: string;
   styles: string;
