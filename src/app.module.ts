@@ -4,7 +4,6 @@ import { EventsModule } from './events/events.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { InviteModule } from './invite/invite.module';
-console.log(process.env);
 @Module({
   imports: [
     ConfigModule.forRoot(),
