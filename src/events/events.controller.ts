@@ -32,9 +32,9 @@ export class EventsController {
   createEvent(@Body() createEventDto: CreateEventDto): Promise<Event> {
     return this.eventService.createEvent(createEventDto);
   }
-  @Get('/:id')
-  async getEventById(@Param('id') id: number): Promise<Event> {
-    const result = await this.eventService.getEventById(id);
+  @Get('/:slug')
+  async getEventById(@Param('slug') slug: string): Promise<Event> {
+    const result = await this.eventService.getEventBySlug(slug);
     return result;
   }
 
@@ -42,7 +42,7 @@ export class EventsController {
   @UseGuards(AuthGuard('web3'))
   @Roles(ROLE.EXECUTIVE, ROLE.TEACHER)
   updateEvent(@Body() updateEventDto: UpdateEventDto) {
-    this.eventService.updatePost(updateEventDto);
+    return this.eventService.updatePost(updateEventDto);
   }
 
   @Delete(':id')
