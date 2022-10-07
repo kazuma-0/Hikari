@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import Event from './events.entity';
 import CreateEventDto from './dto/create-event.dto';
 import UpdateEventDto from './dto/update-event.dto';
+import slugify from 'slugify';
 @Injectable()
 export class EventsService {
   constructor(
@@ -12,13 +13,13 @@ export class EventsService {
   ) {}
 
   async getAllEvents(): Promise<Event[]> {
-    return await this.eventRepository.find({});
+    return await (await this.eventRepository.find({})).reverse();
   }
 
-  async getEventById(id: number): Promise<Event> {
+  async getEventBySlug(slug: string): Promise<Event> {
     const found = await this.eventRepository.findOne({
       where: {
-        id: id,
+        slug: slug,
       },
     });
     if (!found) {
@@ -27,12 +28,20 @@ export class EventsService {
     return found;
   }
   async createEvent(createEventDto: CreateEventDto): Promise<Event> {
-    return await this.eventRepository.save(createEventDto);
+    const event = {
+      ...createEventDto,
+      slug: slugify(createEventDto.title + Date.now()),
+    };
+    return await this.eventRepository.save(event);
   }
 
   async updatePost(updateEventDto: UpdateEventDto) {
-    await this.eventRepository.delete(updateEventDto.id);
-    return await this.eventRepository.save(updateEventDto);
+    const { affected } = await this.eventRepository.delete(updateEventDto.id);
+    const event = {
+      ...updateEventDto,
+      // slug: slugify(updateEventDto.title),
+    };
+    return await this.eventRepository.save(event);
   }
 
   async deleteEvent(id: number): Promise<number> {
