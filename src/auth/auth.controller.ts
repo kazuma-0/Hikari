@@ -25,7 +25,6 @@ export class AuthController {
   // @UseGuards(AuthGuard('web3'))
   // @Roles(ROLE.EXECUTIVE)
   async SignUp(@Body() createUserDto: CreateUserDto) {
-    console.log(createUserDto);
     return await this.authService.createUser(createUserDto);
   }
 
