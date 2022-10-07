@@ -1,4 +1,9 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 class Event {
@@ -6,10 +11,11 @@ class Event {
   id: number;
   @Column()
   title: string;
-  @Column({ default: Date.now() })
-  created_at: string;
+  // @Column({ default: Date.now() })
+  @CreateDateColumn()
+  created_at: Date;
   @Column()
-  short_description: string;
+  tags: string;
   @Column()
   description: string;
   @Column()
@@ -20,6 +26,8 @@ class Event {
   image_url: string;
   @Column()
   author: string;
+  @Column()
+  slug: string;
   @Column({ default: 0 })
   likes: number;
 }
