@@ -30,6 +30,10 @@ export class AuthService {
     }
   }
 
+  async getAllUsers(): Promise<User[]> {
+    return await this.userRepository.find();
+  }
+
   async validateUser(pubKey: string) {
     const user = await this.userRepository.findOne({
       where: {
