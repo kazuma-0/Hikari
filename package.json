@@ -1,8 +1,8 @@
 {
-  "name": "club-backend",
+  "name": "hikari",
   "version": "0.0.1",
   "description": "",
-  "author": "",
+  "author": "kazuma-0",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
