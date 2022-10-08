@@ -33,8 +33,15 @@ export class AuthController {
     return await this.authService.validateUser(loginDto.pubKey);
   }
 
+  @Get('/user/all')
+  @Roles(ROLE.EXECUTIVE, ROLE.TEACHER)
+  @UseGuards(AuthGuard('web3'))
+  async getUsers() {
+    return this.authService.getAllUsers();
+  }
+
   @Get('/user/:pubKey')
-  @Roles(ROLE.EXECUTIVE, ROLE.EXECUTIVE, ROLE.USER)
+  @Roles(ROLE.EXECUTIVE, ROLE.TEACHER, ROLE.USER)
   @UseGuards(AuthGuard('web3'))
   async getUser(@Param('pubKey') pubKey: string) {
     return this.authService.getUserByPubKey(pubKey);
