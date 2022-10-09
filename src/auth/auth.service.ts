@@ -9,6 +9,7 @@ import { UnauthorizedException } from '@nestjs/common';
 import CreateUserDto from './dto/create-user.dto';
 import User from './user.entity';
 import { type } from 'os';
+import UpdateUserDto from './dto/update-user.dto';
 
 @Injectable()
 export class AuthService {
@@ -32,6 +33,17 @@ export class AuthService {
 
   async getAllUsers(): Promise<User[]> {
     return await this.userRepository.find();
+  }
+
+  async updateUser(updateUserDto: UpdateUserDto): Promise<User> {
+    await this.userRepository.delete(updateUserDto.id);
+    const data = await this.userRepository.save(updateUserDto);
+    return data;
+  }
+
+  async deleteUser(id: string): Promise<boolean> {
+    const { affected } = await this.userRepository.delete(id);
+    return Boolean(affected);
   }
 
   async validateUser(pubKey: string) {
