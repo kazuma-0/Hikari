@@ -1,4 +1,9 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import ROLE from 'src/auth/role/role.enum';
 @Entity()
 class User {
@@ -16,8 +21,8 @@ class User {
   pubKey: string; // wallet public key
   @Column({})
   email: string;
-  @Column({ default: Date.now() })
-  created_at: string;
+  @CreateDateColumn()
+  created_at: Date;
   @Column()
   role: ROLE;
 }
