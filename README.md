@@ -1,3 +1,5 @@
+ # Hikari
+ 
  progressive and scalable backend built using nestjs for **The metaverse community**.
 
  Modules
@@ -50,5 +52,5 @@ Invite
   + code (6-8 characters)
 
 
-Build by @kazuma-0
+Build by [@kazuma-0](https://github.com/kazuma-0/Hikari/edit/master/README.md)
  
