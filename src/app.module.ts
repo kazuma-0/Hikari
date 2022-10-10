@@ -4,6 +4,8 @@ import { EventsModule } from './events/events.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { InviteModule } from './invite/invite.module';
+import { AchievementsModule } from './achievements/achievements.module';
+import { BlogModule } from './blog/blog.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -20,6 +22,8 @@ import { InviteModule } from './invite/invite.module';
     }),
     AuthModule,
     InviteModule,
+    AchievementsModule,
+    BlogModule,
   ],
 })
 export class AppModule {}
