@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import {
   IsEmail,
   IsEnum,
@@ -9,6 +10,7 @@ import ROLE from 'src/auth/role/role.enum';
 import { BRANCH } from '../user.entity';
 
 class CreateUserDto {
+  @ApiProperty()
   @IsString()
   name: string;
   @IsNotEmpty()
