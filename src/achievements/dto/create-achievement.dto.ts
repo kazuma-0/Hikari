@@ -1,9 +1,4 @@
-class CreateAchievementDto {
-  title: string;
-  author: string;
-  duration: string;
-  type: string;
-  description: string;
-  image: string;
-}
+import CreateBlogPostDto from 'src/blog/dto/create-blogpost.dto';
+
+class CreateAchievementDto extends CreateBlogPostDto {}
 export default CreateAchievementDto;
