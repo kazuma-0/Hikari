@@ -41,8 +41,7 @@ export class AchievementsController {
 
   @Get('/:slug')
   async getEventById(@Param('slug') slug: string): Promise<Achievement> {
-    const result = await this.achievementsService.getAchievementBySlug(slug);
-    return result;
+    return await this.achievementsService.getAchievementBySlug(slug);
   }
 
   @Put('/update')

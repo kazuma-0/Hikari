@@ -30,22 +30,22 @@ export class AchievementsService {
   async createAchievement(
     createAchievementDto: CreateAchievementDto,
   ): Promise<Achievement> {
-    const event = {
+    const achievement = {
       ...createAchievementDto,
       slug: slugify(createAchievementDto.title + '-' + Date.now()),
     };
-    return await this.achievenmentRepository.save(event);
+    return await this.achievenmentRepository.save(achievement);
   }
 
   async updateAchievement(
     updateAchievementDto: UpdateAchievementDto,
   ): Promise<Achievement> {
     await this.achievenmentRepository.delete(updateAchievementDto.id);
-    const event = {
+    const achievement = {
       ...updateAchievementDto,
       // slug: slugify(updateEventDto.title),
     };
-    return await this.achievenmentRepository.save(event);
+    return await this.achievenmentRepository.save(achievement);
   }
 
   async deleteAchievement(id: number): Promise<number> {
