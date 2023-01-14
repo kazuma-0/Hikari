@@ -2,9 +2,11 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import ROLE from 'src/auth/role/role.enum';
+import Event from 'src/events/events.entity';
 @Entity()
 class User {
   @PrimaryGeneratedColumn('uuid')
@@ -25,6 +27,8 @@ class User {
   created_at: Date;
   @Column()
   role: ROLE;
+  @OneToMany(() => Event, (event: Event) => event.author)
+  events: Event[];
 }
 
 export default User;

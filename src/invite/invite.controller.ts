@@ -35,7 +35,9 @@ export class InviteController {
   }
 
   @Post('/validate')
-  async validateInviteCode(@Body() data: { code: string }): Promise<boolean> {
+  async validateInviteCode(
+    @Body() data: { code: string },
+  ): Promise<{ valid: boolean }> {
     return await this.inviteService.validateInviteCode(data.code);
   }
 }

@@ -1,10 +1,11 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, Req } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import Event from './events.entity';
 import CreateEventDto from './dto/create-event.dto';
 import UpdateEventDto from './dto/update-event.dto';
 import slugify from 'slugify';
+import { randomUUID } from 'crypto';
 @Injectable()
 export class EventsService {
   constructor(
@@ -13,7 +14,11 @@ export class EventsService {
   ) {}
 
   async getAllEvents(): Promise<Event[]> {
-    return await (await this.eventRepository.find({})).reverse();
+    return await (
+      await this.eventRepository.find({
+        relations: ['author'],
+      })
+    ).reverse();
   }
 
   async getEventBySlug(slug: string): Promise<Event> {
@@ -21,6 +26,7 @@ export class EventsService {
       where: {
         slug: slug,
       },
+      relations: ['author'],
     });
     if (!found) {
       throw new NotFoundException();
@@ -30,18 +36,24 @@ export class EventsService {
   async createEvent(createEventDto: CreateEventDto): Promise<Event> {
     const event = {
       ...createEventDto,
-      slug: slugify(createEventDto.title + Date.now()),
+      slug: slugify(createEventDto.title + '-' + randomUUID()),
     };
+    // return await this.eventRepository.create(event);
     return await this.eventRepository.save(event);
   }
 
   async updatePost(updateEventDto: UpdateEventDto) {
-    const { affected } = await this.eventRepository.delete(updateEventDto.id);
-    const event = {
-      ...updateEventDto,
-      // slug: slugify(updateEventDto.title),
+    // const { affected } = await this.eventRepository.delete(updateEventDto.id);
+    await this.eventRepository.update(
+      {
+        slug: updateEventDto.slug,
+      },
+      updateEventDto,
+    );
+    console.log('updated');
+    return {
+      slug: updateEventDto.slug,
     };
-    return await this.eventRepository.save(event);
   }
 
   async deleteEvent(id: number): Promise<number> {

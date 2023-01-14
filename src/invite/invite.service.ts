@@ -25,15 +25,14 @@ export class InviteService {
   async generateInviteCodes(count: number) {
     const codes = [];
     for (let i = 0; i < count; i++) {
-      const randomCount = Math.max(6, Math.floor(Math.random() * 10));
       codes.push({
-        code: referralCodeGenerator.alpha('uppercase', randomCount),
+        code: referralCodeGenerator.alpha('uppercase', 8),
       });
     }
     return await this.inviteCodeRepository.save(codes);
   }
 
-  async validateInviteCode(code: string): Promise<boolean> {
+  async validateInviteCode(code: string): Promise<{ valid: boolean }> {
     const found = await this.inviteCodeRepository.findOne({
       where: {
         code: code,
@@ -44,6 +43,8 @@ export class InviteService {
       throw new NotFoundException('Invite code expired or not found');
     }
     const { affected } = await this.inviteCodeRepository.delete(found);
-    return Boolean(affected);
+    return {
+      valid: Boolean(affected),
+    };
   }
 }

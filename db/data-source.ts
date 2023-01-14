@@ -13,15 +13,19 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { BlogController } from './blog.controller';
-import Blog from './blog.entity';
-import { BlogService } from './blog.service';
-
-@Module({
-  imports: [TypeOrmModule.forFeature([Blog])],
-  controllers: [BlogController],
-  providers: [BlogService],
-})
-export class BlogModule {}
+import { DataSource, DataSourceOptions } from 'typeorm';
+import * as dotenv from 'dotenv';
+dotenv.config();
+export const dataSourceOptions: DataSourceOptions = {
+  type: 'postgres',
+  host: process.env.DB_HOST,
+  port: parseInt(process.env.DB_PORT),
+  username: process.env.DB_USERNAME,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE,
+  entities: ['dist/src/**/user.entity.js', 'dist/src/**/events.entity.js'],
+  migrations: ['dist/db/migrations/*.js'],
+  useUTC: true,
+};
+const dataSource = new DataSource(dataSourceOptions);
+export default dataSource;

@@ -7,6 +7,7 @@ import {
   Delete,
   Put,
   UseGuards,
+  Req,
 } from '@nestjs/common';
 import { EventsService } from './events.service';
 import Event from './events.entity';
@@ -29,20 +30,27 @@ export class EventsController {
   @Post('/new')
   @UseGuards(AuthGuard('web3'))
   @Roles(ROLE.EXECUTIVE, ROLE.TEACHER)
-  createEvent(@Body() createEventDto: CreateEventDto): Promise<Event> {
-    return this.eventService.createEvent(createEventDto);
+  createEvent(
+    @Body() createEventDto: CreateEventDto,
+    @Req() req,
+  ): Promise<Event> {
+    return this.eventService.createEvent({
+      ...createEventDto,
+      authorId: req.user.id,
+    });
   }
   @Get('/:slug')
   async getEventById(@Param('slug') slug: string): Promise<Event> {
-    const result = await this.eventService.getEventBySlug(slug);
-    return result;
+    return await this.eventService.getEventBySlug(slug);
   }
 
   @Put('/update')
   @UseGuards(AuthGuard('web3'))
   @Roles(ROLE.EXECUTIVE, ROLE.TEACHER)
-  updateEvent(@Body() updateEventDto: UpdateEventDto) {
-    return this.eventService.updatePost(updateEventDto);
+  async updateEvent(@Body() updateEventDto: UpdateEventDto) {
+    console.log(updateEventDto);
+    const data = await this.eventService.updatePost(updateEventDto);
+    return data;
   }
 
   @Delete(':id')

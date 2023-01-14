@@ -1,16 +1,26 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 class CreateEventDto {
   @ApiProperty()
   @IsNotEmpty()
+  @IsString()
   title: string;
+  @IsNotEmpty()
+  @IsString()
   tags: string;
+  @IsNotEmpty()
+  @IsString()
   description: string;
-  markdown: string;
-  styles: string;
+  @IsNotEmpty()
+  @IsString()
+  source: string;
+  @IsNotEmpty()
+  @IsString()
   image_url: string;
-  author: string;
+  // @IsNotEmpty()
+  // @IsString()
+  authorId: string;
 }
 
 export default CreateEventDto;

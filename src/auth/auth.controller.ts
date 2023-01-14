@@ -37,8 +37,8 @@ export class AuthController {
   }
 
   @Get('/user/all')
-  @Roles(ROLE.EXECUTIVE, ROLE.TEACHER)
-  @UseGuards(AuthGuard('web3'))
+  // @Roles(ROLE.EXECUTIVE, ROLE.TEACHER)
+  // @UseGuards(AuthGuard('web3'))
   async getUsers(): Promise<User[]> {
     return this.authService.getAllUsers();
   }
